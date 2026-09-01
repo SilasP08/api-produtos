@@ -1,9 +1,10 @@
 const arquivoDeConfiguracao = process.argv[2];
+const idInformado = process.argv[3];
 let configuracaoCarregada = true;
 
 if (arquivoDeConfiguracao) {
     try {
-        process.loadEnvfile(arquivoDeConfiguracao)
+        process.loadEnvFile(arquivoDeConfiguracao)
     } catch {
         console.error(`Arquivo de configuração não encontrado: ${arquivoDeConfiguracao}`);
         process.exitCode = 1;
@@ -12,17 +13,11 @@ if (arquivoDeConfiguracao) {
 }
 
 const obrigatorias = ['PORT', 'NOME_ALUNO', 'TURMA'];
-const ausentes = [];
+const ausentes = obrigatorias.filter(
+    (nome) => !process.env[nome]?.trim()
+);
 
-for (const nome of obrigatorias) {
-    const valor = process.env[nome];
-
-    if (typeof valor !== 'string' || valor.trim()==='') {
-        ausentes.push(nome);
-    }
-}
-
-if (configuracaoCarregada && ausentes.length>0) {
+if (configuracaoCarregada && ausentes.length) {
     console.error(`Configure no .env: ${ausentes.join(', ')}`);
     process.exitCode = 1;
 } else if (configuracaoCarregada) {
@@ -38,3 +33,49 @@ if (configuracaoCarregada && ausentes.length>0) {
     });
     console.log('Ambiente configurado com sucesso!');
 }
+
+const produtos = [
+    {id:1, nome:'Mouse', preco: 80, estoque: 100, categoria:'Periféricos'},
+    {id:2, nome:'Monitor', preco: 900, estoque: 50, categoria:'Video'},
+    {id:3, nome:'Teclado', preco: 120, estoque: 200, categoria:'Periféricos'}
+];
+
+const esperar = (ms) => new Promise(
+    (resolve) => setTimeout(resolve, ms)
+);
+
+async function buscaProdutoPorId(id) {
+    await esperar(100);
+    if (!Number.isInteger(id)) {
+        throw new Error('Identificador inteiro exigido');
+    }
+    const produto = produtos.find((item) => item.id === id);
+    if(!produto) {
+        throw new Error(`Produto ${id} não encontrado`);
+    }
+    return {...produto};
+}
+
+async function listarCategorias() {
+    await esperar(100);
+    const categorias = produtos.map(
+        ({categoria}) => categoria 
+    );
+    return [...new Set(categorias)];
+}
+
+async function executar() {
+    if (!configuracaoCarregada) return;
+    try {
+        const id = Number(idInformado ?? 1)
+        const [produto, categorias] = await Promise.all([buscaProdutoPorId(id), listarCategorias()]);
+        console.log('Produto: ', produto);
+        console.log('valor em estoque: ', produto.preco * produto.estoque);
+        console.log('Categoria: ', categorias);
+    } catch (erro) {
+        console.error(erro.massage);
+        process.exitCode = 1;
+    }
+}
+
+executar();

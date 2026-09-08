@@ -5,12 +5,12 @@ import { formatarMoeda } from "./utils/formartarMoeda.js";
 async function executar() {
     try {
         const configuracao = carregarAmbiente(process.argv[2])
-        const idSolicitado = carregarAmbiente(process.arcv[3])
+        const idSolicitado = Number(process.argv[3] || '1')
         if (!Number.isInteger(idSolicitado)) {
             throw new Error('Informe um indentificador inteiro para o produto');
         }
         exibirDiagnostico(configuracao);
-        const [produto, categoria] = await Promise.all([
+        const [produto, categorias] = await Promise.all([
             buscarProdutoPorId(idSolicitado),
             listarCategorias()
         ]);

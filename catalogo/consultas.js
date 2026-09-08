@@ -10,7 +10,7 @@ export async function buscarProdutoPorId(id) {
     if (!dados) {
         throw new Error(`Produto ${id} não encontrado`);
     }
-    return new Protudo(dados);
+    return new Produto(dados);
 }
 export async function listarCategorias() {
     await esperar(60);

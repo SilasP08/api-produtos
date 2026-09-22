@@ -19,5 +19,12 @@
     "preco": 99,
     "estoque": 7,
     "categoria": "Periféricos"
+  },
+  {
+    "id": 4,
+    "nome": "Monitor OLED",
+    "preco": 2000,
+    "estoque": 0,
+    "categoria": "Vídeo"
   }
 ]

@@ -4,7 +4,7 @@ import { produtoRoutes } from './routes/produtoRoutes.js';
 export const app = express();
 
 // Middleware: ensina o Express a ler o corpo da requisição em JSON
-app.use(express, json());
+app.use(express.json());
 
 app.get('/api/check', (req, res) => {
     res.status(200).json({ status: 'ok', mensagem: 'Servidor funcionando via HTTP!' });

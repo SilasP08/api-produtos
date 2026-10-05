@@ -6,6 +6,7 @@ export function criarProdutoController({ produtoService }) {
         } catch (erro) {
             next(erro);
         }
+    }
         async function buscar(req, res, next) {
             try {
                 const produto = await produtoService.buscarPorId(req.params.id);
@@ -25,6 +26,6 @@ export function criarProdutoController({ produtoService }) {
 
             }
         }
-    }
-    return {listar, buscar, criar}
+    
+    return { listar, buscar, criar }
 }

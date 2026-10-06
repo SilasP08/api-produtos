@@ -20,7 +20,7 @@ export function criarProdutoController({ produtoService }) {
         async function criar(req, res, next) {
             try {
                 const produtoNovo = await produtoService.criar(req.body);
-                res.status(201).json({ succeso: true, dados: produtoNovo });
+                res.status(201).json({ sucesso: true, dados: produtoNovo });
             } catch (erro) {
                 res.status(400).json({ sucesso: false, erro: erro.message });
 

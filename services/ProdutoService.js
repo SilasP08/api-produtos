@@ -21,5 +21,5 @@ export function criarProdutoService({ produtoModel }) {
             categoria: produto.categoria
         })
     }
-    return { listar, buscarPorId, criar }
+    return { listar, buscarPorId, criar };
 }

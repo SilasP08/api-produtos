@@ -1,5 +1,5 @@
 import Produto from '../models/Produto.js';
-import * as ProdutoModel from '../models/ProdutoModel.js';
+import * as ProdutoModel from '../models/ProdutoModels.js';
 
 
 function validarId(idRecebido) {
